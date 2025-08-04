@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { NeomorphicButton } from "./neomorphic-button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -7,8 +8,8 @@ const navItems = [
   { label: "Features", href: "#features" },
   { label: "Testimonials", href: "#testimonials" },
   { label: "Pricing", href: "#pricing" },
+  { label: "Resources", href: "#blog" },
   { label: "FAQ", href: "#faq" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -26,10 +27,15 @@ export function Navbar() {
 
   return (
     <>
-      <nav className={cn(
-        "fixed top-0 w-full z-50 transition-smooth",
-        isScrolled ? "glass-subtle" : "bg-transparent"
-      )}>
+      <motion.nav 
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className={cn(
+          "fixed top-0 w-full z-50 transition-smooth",
+          isScrolled ? "glass backdrop-blur-md" : "bg-transparent"
+        )}
+      >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -69,32 +75,62 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden">
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" 
-               onClick={() => setIsMobileMenuOpen(false)} />
-          <div className="fixed right-0 top-0 h-full w-64 glass border-l border-glass-border p-6">
-            <div className="mt-16 space-y-6">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="block text-foreground hover:text-gradient-primary transition-smooth"
-                  onClick={() => setIsMobileMenuOpen(false)}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 md:hidden"
+          >
+            <div 
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="fixed right-0 top-0 h-full w-80 glass border-l border-glass-border p-6"
+            >
+              <div className="mt-16 space-y-6">
+                {navItems.map((item, index) => (
+                  <motion.a
+                    key={item.label}
+                    href={item.href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="block text-lg font-medium text-foreground hover:text-primary transition-smooth"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </motion.a>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="pt-6"
                 >
-                  {item.label}
-                </a>
-              ))}
-              <NeomorphicButton variant="default" className="w-full mt-8">
-                Get Started
-              </NeomorphicButton>
-            </div>
-          </div>
-        </div>
-      )}
+                  <NeomorphicButton 
+                    variant="default" 
+                    className="w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Get Started
+                  </NeomorphicButton>
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

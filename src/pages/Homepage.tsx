@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
 import { Navbar } from "@/components/ui/navbar";
 import { NeomorphicButton } from "@/components/ui/neomorphic-button";
 import { GlassCard } from "@/components/ui/glass-card";
 import { FeatureCard } from "@/components/ui/feature-card";
 import { TestimonialCard } from "@/components/ui/testimonial-card";
 import { PricingCard } from "@/components/ui/pricing-card";
+import { BlogPreviewCard } from "@/components/ui/blog-preview-card";
+import { InteractivePricing } from "@/components/ui/interactive-pricing";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { ParallaxSection } from "@/components/ui/parallax-section";
 import { 
   Brain, 
   Zap, 
@@ -142,6 +147,33 @@ const faqs = [
   }
 ];
 
+const blogPosts = [
+  {
+    title: "10 AI Copywriting Prompts That Convert",
+    excerpt: "Master the art of AI copywriting with these proven prompts that have generated millions in revenue for our clients.",
+    date: "Dec 15, 2024",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&h=300&fit=crop",
+    slug: "ai-copywriting-prompts"
+  },
+  {
+    title: "Marketing Automation Workflows That Work",
+    excerpt: "Step-by-step guide to building automation workflows that nurture leads and convert them into customers.",
+    date: "Dec 12, 2024",
+    readTime: "8 min read",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=300&fit=crop",
+    slug: "automation-workflows"
+  },
+  {
+    title: "Personalizing at Scale with AI",
+    excerpt: "Learn how to create personalized marketing campaigns for thousands of customers using AI-driven insights.",
+    date: "Dec 10, 2024",
+    readTime: "6 min read",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
+    slug: "personalization-at-scale"
+  }
+];
+
 export default function Homepage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -150,12 +182,40 @@ export default function Homepage() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6">
+      <section className="pt-24 pb-16 px-6 relative overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <motion.div
+            animate={{ 
+              rotate: 360,
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ 
+              duration: 20, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+            className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-primary opacity-10 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ 
+              rotate: -360,
+              scale: [1.1, 1, 1.1]
+            }}
+            transition={{ 
+              duration: 25, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-secondary opacity-10 rounded-full blur-3xl"
+          />
+        </div>
+        
         <div className="container mx-auto">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-center space-y-8 mb-16"
           >
             <h1 className="text-5xl md:text-7xl font-bold text-gradient-primary leading-tight">
@@ -178,33 +238,34 @@ export default function Homepage() {
             </div>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="relative"
-          >
-            <GlassCard className="p-8 animate-float">
-              <img 
-                src={heroImage} 
-                alt="ADmyBRAND AI Dashboard" 
-                className="w-full rounded-xl shadow-2xl"
-              />
-            </GlassCard>
-          </motion.div>
+          <ParallaxSection speed={0.3}>
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="relative"
+            >
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.4 }}
+              >
+                <GlassCard className="p-8 animate-float">
+                  <img 
+                    src={heroImage} 
+                    alt="ADmyBRAND AI Dashboard" 
+                    className="w-full rounded-xl shadow-2xl"
+                  />
+                </GlassCard>
+              </motion.div>
+            </motion.div>
+          </ParallaxSection>
         </div>
       </section>
 
       {/* Features Section */}
       <section id="features" className="py-20 px-6">
         <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+          <ScrollReveal className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Everything You Need to 
               <span className="text-gradient-primary"> Dominate Marketing</span>
@@ -213,19 +274,17 @@ export default function Homepage() {
               Our AI-powered suite provides all the tools you need to create, automate, and optimize 
               your marketing campaigns for maximum impact.
             </p>
-          </motion.div>
+          </ScrollReveal>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <motion.div
+              <ScrollReveal
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                delay={index * 0.1}
+                direction={index % 2 === 0 ? "left" : "right"}
               >
                 <FeatureCard {...feature} />
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -234,121 +293,131 @@ export default function Homepage() {
       {/* Testimonials Section */}
       <section id="testimonials" className="py-20 px-6">
         <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+          <ScrollReveal className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Trusted by <span className="text-gradient-primary">Marketing Leaders</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               See how top marketing teams are using ADmyBRAND AI to drive unprecedented results.
             </p>
-          </motion.div>
+          </ScrollReveal>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <motion.div
+              <ScrollReveal
                 key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
+                delay={index * 0.2}
+                direction={index % 2 === 0 ? "left" : "right"}
               >
                 <TestimonialCard {...testimonial} />
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Interactive Pricing Section */}
       <section id="pricing" className="py-20 px-6">
         <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+          <ScrollReveal className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Simple, <span className="text-gradient-primary">Transparent Pricing</span>
+              Interactive <span className="text-gradient-primary">Pricing Calculator</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Choose the plan that fits your needs. All plans include our core AI features 
-              with no hidden fees or surprises.
+              Customize your plan based on your needs. See real-time pricing updates as you adjust features.
             </p>
-          </motion.div>
+          </ScrollReveal>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <motion.div
+          <ScrollReveal delay={0.3}>
+            <InteractivePricing />
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Blog/Resources Section */}
+      <section id="blog" className="py-20 px-6">
+        <div className="container mx-auto">
+          <ScrollReveal className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Latest <span className="text-gradient-primary">Resources</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Stay ahead with the latest AI marketing strategies, tips, and insights from our experts.
+            </p>
+          </ScrollReveal>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {blogPosts.map((post, index) => (
+              <ScrollReveal
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                delay={index * 0.1}
+                direction="up"
               >
-                <PricingCard {...plan} />
-              </motion.div>
+                <BlogPreviewCard {...post} />
+              </ScrollReveal>
             ))}
           </div>
+          
+          <ScrollReveal delay={0.4}>
+            <div className="text-center">
+              <NeomorphicButton 
+                variant="ghost" 
+                size="lg"
+                onClick={() => window.location.href = '/blog'}
+              >
+                View All Articles
+              </NeomorphicButton>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-6">
         <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+          <ScrollReveal className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Frequently Asked <span className="text-gradient-primary">Questions</span>
             </h2>
-          </motion.div>
+          </ScrollReveal>
           
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <motion.div
+              <ScrollReveal
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                delay={index * 0.1}
+                direction="up"
               >
                 <GlassCard className="overflow-hidden">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                     className="w-full p-6 text-left flex items-center justify-between hover:bg-glass/50 transition-smooth"
                     onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   >
                     <span className="text-lg font-medium text-foreground">{faq.question}</span>
-                    <ChevronDown 
-                      className={`w-5 h-5 text-muted-foreground transition-transform ${
-                        openFaq === index ? 'rotate-180' : ''
-                      }`} 
-                    />
-                  </button>
-                  {openFaq === index && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
+                      animate={{ rotate: openFaq === index ? 180 : 0 }}
                       transition={{ duration: 0.3 }}
-                      className="px-6 pb-6"
                     >
-                      <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
                     </motion.div>
-                  )}
+                  </motion.button>
+                  <AnimatePresence>
+                    {openFaq === index && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        className="px-6 pb-6 overflow-hidden"
+                      >
+                        <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </GlassCard>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
