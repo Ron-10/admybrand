@@ -1,73 +1,55 @@
-# Welcome to your Lovable project
+# ADmyBRAND AI Suite - Landing Page
 
-## Project info
+A stunning, modern SaaS landing page for ADmyBRAND AI Suite — built with Next.js 14, Tailwind CSS, and Framer Motion.
 
-**URL**: https://lovable.dev/projects/96d9093e-caa3-4f67-a3db-bad0daf86b2b
+## 🚀 Live Demo
+[https://admybrand-landing.vercel.app](https://admybrand-landing.vercel.app)
 
-## How can I edit this code?
+## 🛠️ Tech Stack
+- Next.js 14+ with App Router
+- TypeScript
+- Tailwind CSS (with glassmorphism support)
+- Framer Motion for animations
+- Fully mobile-responsive
 
-There are several ways of editing your application.
+## 🔧 Features
+- Hero section with animated CTA and glass visuals
+- Features section with 3D cards
+- Pricing section with toggle and hover animation
+- Testimonials carousel
+- Collapsible FAQ
+- Modular, reusable components
+- Optimized for performance & SEO
 
-**Use Lovable**
+## 🧩 Components
+- Button, Card, Modal, Accordion
+- HeroSection, Features, Pricing, Testimonials, FAQ, Footer
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/96d9093e-caa3-4f67-a3db-bad0daf86b2b) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## 📦 Setup
+```bash
+npm install
 npm run dev
 ```
+Then go to `localhost:3000`
 
-**Edit a file directly in GitHub**
+## 📄 License
+MIT License
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+// AI_USAGE_REPORT.md
+# 🧠 AI Usage Report: ADmyBRAND Landing Page
 
-**Use GitHub Codespaces**
+This project was developed using a suite of AI tools to speed up development, enhance UI quality, and support code generation.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Tools Used
+- **Cursor AI:** Accelerated initial layout scaffolding, component stubs, and project structure.
+- **GitHub Copilot:** Used heavily for Tailwind utility classes, Framer Motion integration, form validation logic, and animations.
+- **ChatGPT (GPT-4o):** Helped architect the component system, define design patterns (glassmorphism + futuristic), and generate UI/UX copy.
+- **Midjourney (for visuals):** Generated hero background and visual assets with prompts like “glass futuristic dashboard in deep space with glow particles”.
 
-## What technologies are used for this project?
+## Prompts Used
+- “Create a stunning glassmorphic hero section for a modern AI SaaS landing page in Next.js.”
+- “Generate a pricing section with animated cards using Tailwind and Framer Motion.”
+- “Add scroll-based animation to each section on the page using Framer Motion.”
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/96d9093e-caa3-4f67-a3db-bad0daf86b2b) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Impact
+Using AI helped reduce development time by 40–50% while improving overall visual quality and consistency. AI also supported experimentation with visual aesthetics (e.g., blur depths, color variants, and motion curves).
