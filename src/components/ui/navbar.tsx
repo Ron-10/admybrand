@@ -32,8 +32,8 @@ export function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
         className={cn(
-          "fixed top-0 w-full z-50 transition-smooth",
-          isScrolled ? "glass backdrop-blur-md" : "bg-transparent"
+          "fixed top-0 w-full z-50 transition-smooth bg-black",
+          isScrolled ? "glass backdrop-blur-md" : "bg-black"
         )}
       >
         <div className="container mx-auto px-6 py-4">
@@ -41,7 +41,7 @@ export function Navbar() {
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg"></div>
-              <span className="text-xl font-bold text-gradient-primary">
+                             <span className="text-xl font-bold text-white">
                 ADmyBRAND AI
               </span>
             </div>
@@ -52,7 +52,7 @@ export function Navbar() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-smooth"
+                                     className="text-white hover:text-primary transition-smooth"
                 >
                   {item.label}
                 </a>
@@ -68,7 +68,7 @@ export function Navbar() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 text-foreground"
+              className="md:hidden p-2 text-white"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -106,7 +106,7 @@ export function Navbar() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="block text-lg font-medium text-foreground hover:text-primary transition-smooth"
+                    className="block text-lg font-medium text-white hover:text-primary transition-smooth"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}

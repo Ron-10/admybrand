@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Navbar } from "@/components/ui/navbar";
+import {
+  Navbar,
+  NavBody,
+  NavItems,
+  MobileNav,
+  NavbarLogo,
+  NavbarButton,
+  MobileNavHeader,
+  MobileNavToggle,
+  MobileNavMenu,
+} from "@/components/ui/resizable-navbar";
 import { GlassCard } from "@/components/ui/glass-card";
 import { NeomorphicButton } from "@/components/ui/neomorphic-button";
 import { useToast } from "@/hooks/use-toast";
@@ -57,6 +67,7 @@ const stats = [
 ];
 
 export default function Contact() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -98,7 +109,62 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-gradient-cosmic">
-      <Navbar />
+      <Navbar>
+        {/* Desktop Navigation */}
+        <NavBody>
+          <NavbarLogo />
+          <NavItems items={[
+            { name: "Features", link: "/#features" },
+            { name: "Pricing", link: "/#pricing" },
+            { name: "Resources", link: "/blog" },
+            { name: "Contact", link: "/contact" },
+          ]} />
+          <div className="flex items-center gap-4">
+            <NavbarButton variant="primary">Get Started</NavbarButton>
+          </div>
+        </NavBody>
+
+        {/* Mobile Navigation */}
+        <MobileNav>
+          <MobileNavHeader>
+            <NavbarLogo />
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          </MobileNavHeader>
+
+          <MobileNavMenu
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          >
+            {[
+              { name: "Features", link: "/#features" },
+              { name: "Pricing", link: "/#pricing" },
+              { name: "Resources", link: "/blog" },
+              { name: "Contact", link: "/contact" },
+            ].map((item, idx) => (
+              <a
+                key={`mobile-link-${idx}`}
+                href={item.link}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="relative text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 py-2 px-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 w-full text-left"
+              >
+                <span className="block font-medium">{item.name}</span>
+              </a>
+            ))}
+            <div className="flex w-full flex-col gap-4">
+              <NavbarButton
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="primary"
+                className="w-full"
+              >
+                Get Started
+              </NavbarButton>
+            </div>
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
       
       <div className="pt-24 pb-16 px-6">
         <div className="container mx-auto">
