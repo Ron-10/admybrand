@@ -3,7 +3,8 @@
 A stunning, modern SaaS landing page for ADmyBRAND AI Suite — built with Next.js 14, Tailwind CSS, and Framer Motion.
 
 ## 🚀 Live Demo
-[https://admybrand-landing.vercel.app](https://admybrand-landing.vercel.app)
+https://admybrand-8g6yxhz6k-roneykarki011-gmailcoms-projects.vercel.app/
+
 
 ## 🛠️ Tech Stack
 - Next.js 14+ with App Router
